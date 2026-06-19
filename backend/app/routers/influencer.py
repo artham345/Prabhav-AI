@@ -217,10 +217,10 @@ def ingest_social_profile_intelligence(
     
     # Process each platform
     for plat in platforms:
-        if not plat["handle"]:
-            continue # skip if not linked
-            
+        handle = plat["handle"] or f"@{profile.full_name.lower().replace(' ', '_')}_{plat['name'].lower()}"
+        
         # Run SBERT + zero-shot aggregation on posts
+
         res = analyze_creator_posts(plat["posts"])
         
         # Simulated audience data
