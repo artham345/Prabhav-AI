@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { Plus, BarChart3, TrendingUp, Sparkles, UserCheck, DollarSign, Calendar, MessageSquare, ArrowUpRight } from 'lucide-react';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
 
 export default function BrandDashboard() {
   const navigate = useNavigate();
@@ -12,14 +11,10 @@ export default function BrandDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Sample historical data for dashboard chart
-  const performanceData = [
-    { name: 'Jan', spend: 4000, revenue: 9500 },
-    { name: 'Feb', spend: 7500, revenue: 19800 },
-    { name: 'Mar', spend: 12000, revenue: 32400 },
-    { name: 'Apr', spend: 18000, revenue: 54000 },
-    { name: 'May', spend: 25000, revenue: 78500 },
-  ];
+  // Market Intelligence States
+  const [intelCategory, setIntelCategory] = useState('Fitness');
+  const [intelData, setIntelData] = useState(null);
+  const [intelLoading, setIntelLoading] = useState(false);
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -45,6 +40,21 @@ export default function BrandDashboard() {
     }
     loadDashboardData();
   }, [navigate]);
+
+  useEffect(() => {
+    async function loadMarketIntelligence() {
+      setIntelLoading(true);
+      try {
+        const data = await api.getMarketIntelligence(intelCategory);
+        setIntelData(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIntelLoading(false);
+      }
+    }
+    loadMarketIntelligence();
+  }, [intelCategory]);
 
   if (loading) {
     return (
@@ -97,7 +107,7 @@ export default function BrandDashboard() {
           </div>
           <div>
             <span className="text-xs text-slateText block">Total Allocated Budget</span>
-            <span className="text-2xl font-bold">${totalBudget.toLocaleString()}</span>
+            <span className="text-2xl font-bold">₹{totalBudget.toLocaleString()}</span>
           </div>
         </div>
 
@@ -107,7 +117,7 @@ export default function BrandDashboard() {
           </div>
           <div>
             <span className="text-xs text-slateText block">Spent Budget (Contracts)</span>
-            <span className="text-2xl font-bold">${spentBudget.toLocaleString()}</span>
+            <span className="text-2xl font-bold">₹{spentBudget.toLocaleString()}</span>
           </div>
         </div>
 
@@ -134,63 +144,133 @@ export default function BrandDashboard() {
 
       {/* Main Analytics Visuals */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* LEFT COLUMN: MARKET INTELLIGENCE NICHE ANALYSIS */}
         <div className="lg:col-span-2 p-6 rounded-2xl glassmorphism border border-white/5 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-primaryColor" /> Performance Forecasting Trend
+              <TrendingUp className="h-5 w-5 text-primaryColor" /> Industry Niche Analysis
             </h2>
-            <span className="text-xs text-slateText">Mock Historical Ingestion</span>
+            <select
+              value={intelCategory}
+              onChange={(e) => setIntelCategory(e.target.value)}
+              className="px-3 py-1.5 text-xs rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none cursor-pointer"
+            >
+              {['Fitness', 'Technology', 'Finance', 'Education', 'Gaming', 'Fashion', 'Travel', 'Food', 'Beauty'].map(cat => (
+                <option key={cat} value={cat} className="bg-darkBg">{cat}</option>
+              ))}
+            </select>
           </div>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={performanceData}>
-                <defs>
-                  <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366F1" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#6366F1" stopOpacity={0}/>
-                  </linearGradient>
-                  <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="name" stroke="#94A3B8" fontSize={11} tickLine={false} />
-                <YAxis stroke="#94A3B8" fontSize={11} tickLine={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#161D30', borderColor: 'rgba(255,255,255,0.08)', borderRadius: '12px' }} />
-                <Area type="monotone" dataKey="spend" name="Budget Spent" stroke="#6366F1" strokeWidth={2} fillOpacity={1} fill="url(#colorSpend)" />
-                <Area type="monotone" dataKey="revenue" name="Revenue Earned" stroke="#10B981" strokeWidth={2} fillOpacity={1} fill="url(#colorRev)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+
+          {intelLoading ? (
+            <div className="py-20 flex justify-center items-center">
+              <div className="h-8 w-8 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : intelData ? (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-5 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                  <span className="text-xs text-slateText block">Average Industry ROI</span>
+                  <span className="text-xl font-bold text-accentColor">{intelData.average_roi}</span>
+                </div>
+                <div className="p-5 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                  <span className="text-xs text-slateText block">Benchmark CPM Range</span>
+                  <span className="text-xl font-bold text-indigo-300">{intelData.cpm_range}</span>
+                </div>
+              </div>
+              
+              <div className="p-6 rounded-xl bg-white/5 border border-white/5 space-y-4">
+                <h3 className="text-sm font-semibold text-white/95">Trending Niche Products</h3>
+                <div className="flex flex-wrap gap-2">
+                  {intelData.trending_products?.map((prod, idx) => (
+                    <span key={idx} className="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3 py-1.5 rounded-full font-medium">
+                      {prod}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-white/95">Recommended Creators</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {intelData.recommended_creators?.map((creator) => (
+                    <div key={creator.id} className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/20 transition flex flex-col justify-between space-y-4">
+                      <div>
+                        <div className="flex justify-between items-start">
+                          <div className="truncate pr-2">
+                            <h4 className="font-bold text-sm text-white/95 truncate">{creator.full_name}</h4>
+                            <span className="text-[10px] text-slateText block truncate">{creator.handle}</span>
+                          </div>
+                          <span className="text-[10px] font-bold text-indigo-300 font-mono bg-indigo-500/10 px-1.5 py-0.5 rounded shrink-0">
+                            {creator.trust_score}/10
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mt-3 text-[11px] text-slateText">
+                          <div>
+                            <span>Followers:</span>
+                            <span className="block font-semibold text-white/90">{creator.followers_count?.toLocaleString()}</span>
+                          </div>
+                          <div>
+                            <span>ER:</span>
+                            <span className="block font-semibold text-white/90">{creator.engagement_rate}%</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="border-t border-white/5 pt-3 flex justify-between items-center">
+                        <div>
+                          <span className="text-[10px] text-slateText block">Asking Fee</span>
+                          <span className="text-xs font-bold text-white">₹{creator.expected_charge?.toLocaleString()}</span>
+                        </div>
+                        <Link to="/brand/discover" className="text-[10px] text-indigo-400 hover:underline font-semibold">
+                          Send Offer
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p className="text-slateText text-sm">Failed to load market intelligence data.</p>
+          )}
         </div>
 
-        <div className="p-6 rounded-2xl glassmorphism border border-white/5 space-y-6">
-          <h2 className="text-lg font-bold flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-secondaryColor" /> Platform Summary
-          </h2>
+        {/* RIGHT COLUMN: PLATFORM SUMMARY & INSIGHTS */}
+        <div className="p-6 rounded-2xl glassmorphism border border-white/5 space-y-6 flex flex-col justify-between">
+          <div className="space-y-6">
+            <h2 className="text-lg font-bold flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-secondaryColor" /> Platform Summary
+            </h2>
+            
+            <div className="space-y-4 pt-2">
+              <div className="flex justify-between items-center pb-3 border-b border-white/5">
+                <span className="text-sm text-slateText">Connected Brand Goals</span>
+                <span className="text-sm font-semibold">{profile?.marketing_goals?.join(', ') || 'Awareness'}</span>
+              </div>
+              <div className="flex justify-between items-center pb-3 border-b border-white/5">
+                <span className="text-sm text-slateText">Target Geographies</span>
+                <span className="text-sm font-semibold">{profile?.target_markets?.join(', ') || 'Global'}</span>
+              </div>
+              <div className="flex justify-between items-center pb-3 border-b border-white/5">
+                <span className="text-sm text-slateText">Verified GST Number</span>
+                <span className="text-xs bg-emerald-500/15 text-accentColor px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                  {profile?.gst_number ? 'Yes' : 'Not Provided'}
+                </span>
+              </div>
+              <div className="flex justify-between items-center pb-3 border-b border-white/5">
+                <span className="text-sm text-slateText">Business Registration ID</span>
+                <span className="text-sm font-mono text-white/80">{profile?.business_reg_number || 'Pending'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slateText">Open Campaigns</span>
+                <span className="text-sm font-semibold">{campaigns.length} Active</span>
+              </div>
+            </div>
+          </div>
           
-          <div className="space-y-4 pt-2">
-            <div className="flex justify-between items-center pb-3 border-b border-white/5">
-              <span className="text-sm text-slateText">Connected Brand Goals</span>
-              <span className="text-sm font-semibold">{profile?.marketing_goals?.join(', ') || 'Awareness'}</span>
-            </div>
-            <div className="flex justify-between items-center pb-3 border-b border-white/5">
-              <span className="text-sm text-slateText">Target Geographies</span>
-              <span className="text-sm font-semibold">{profile?.target_markets?.join(', ') || 'Global'}</span>
-            </div>
-            <div className="flex justify-between items-center pb-3 border-b border-white/5">
-              <span className="text-sm text-slateText">Verified GST Number</span>
-              <span className="text-xs bg-emerald-500/15 text-accentColor px-2.5 py-0.5 rounded-full border border-emerald-500/30">
-                {profile?.gst_number ? 'Yes' : 'Not Provided'}
-              </span>
-            </div>
-            <div className="flex justify-between items-center pb-3 border-b border-white/5">
-              <span className="text-sm text-slateText">Business Registration ID</span>
-              <span className="text-sm font-mono text-white/80">{profile?.business_reg_number || 'Pending'}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-slateText">Open Campaigns</span>
-              <span className="text-sm font-semibold">{campaigns.length} Active</span>
+          <div className="space-y-4 border-t border-white/5 pt-6">
+            <div className="p-4 rounded-xl bg-indigo-500/5 border border-indigo-500/10 text-[11px] text-indigo-300 leading-relaxed">
+              💡 <strong>Tip:</strong> Technology and Finance niches feature high CPM rates in India but offer exceptionally high intent-driven conversion rates for SaaS and fintech brands.
             </div>
           </div>
         </div>
@@ -217,7 +297,7 @@ export default function BrandDashboard() {
               <thead>
                 <tr className="border-b border-white/5 text-xs text-slateText uppercase tracking-wider">
                   <th className="py-3 px-4">Product Name</th>
-                  <th className="py-3 px-4">Budget ($)</th>
+                  <th className="py-3 px-4">Budget (₹)</th>
                   <th className="py-3 px-4">Main Goal</th>
                   <th className="py-3 px-4">Channel</th>
                   <th className="py-3 px-4">Target Location</th>
@@ -229,7 +309,7 @@ export default function BrandDashboard() {
                 {campaigns.map(camp => (
                   <tr key={camp.id} className="hover:bg-white/5 text-sm transition">
                     <td className="py-4 px-4 font-semibold text-white/95">{camp.product_name}</td>
-                    <td className="py-4 px-4 font-mono font-medium">${camp.budget.toLocaleString()}</td>
+                    <td className="py-4 px-4 font-mono font-medium">₹{camp.budget.toLocaleString()}</td>
                     <td className="py-4 px-4">{camp.campaign_goal}</td>
                     <td className="py-4 px-4 capitalize">{camp.preferred_platform}</td>
                     <td className="py-4 px-4 text-slateText">{camp.target_location}</td>

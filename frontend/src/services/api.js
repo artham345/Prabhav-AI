@@ -100,8 +100,11 @@ export const api = {
   }),
   getAdvisorSuggestions: (campaignId) => apiRequest(`/campaigns/${campaignId}/advisor`),
   
+  getMarketIntelligence: (category) => apiRequest(`/market-intelligence?category=${category}`),
+  
   // Collaboration Marketplace
   getCollaborations: () => apiRequest('/collaborations'),
+
   createCollaboration: (data) => apiRequest('/collaborations', {
     method: 'POST',
     body: JSON.stringify(data),

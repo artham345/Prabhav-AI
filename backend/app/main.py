@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
 from backend.app.core.db import Base, engine
-from backend.app.routers import auth, brand, influencer, campaigns, collaborations
+from backend.app.routers import auth, brand, influencer, campaigns, collaborations, market_intelligence
 
 # Trigger automatic database tables creation
 Base.metadata.create_all(bind=engine)
@@ -28,6 +28,8 @@ app.include_router(brand.router, prefix=settings.API_V1_STR)
 app.include_router(influencer.router, prefix=settings.API_V1_STR)
 app.include_router(campaigns.router, prefix=settings.API_V1_STR)
 app.include_router(collaborations.router, prefix=settings.API_V1_STR)
+app.include_router(market_intelligence.router, prefix=settings.API_V1_STR)
+
 
 @app.get("/")
 def root_endpoint():

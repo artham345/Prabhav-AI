@@ -190,7 +190,7 @@ export default function InfluencerDashboard() {
           </div>
           <div>
             <span className="text-xs text-slateText block">Asking Collab Rate</span>
-            <span className="text-2xl font-bold">${profile?.expected_charge.toLocaleString()}</span>
+            <span className="text-2xl font-bold">₹{profile?.expected_charge.toLocaleString()}</span>
           </div>
         </div>
 
@@ -266,7 +266,7 @@ export default function InfluencerDashboard() {
                     </div>
                     <div className="text-right">
                       <span className="text-xs text-slateText block">Offer Fee</span>
-                      <span className="text-base font-bold text-white">${off.offer_budget.toLocaleString()}</span>
+                      <span className="text-base font-bold text-white">₹{off.offer_budget.toLocaleString()}</span>
                     </div>
                   </div>
 
@@ -278,7 +278,7 @@ export default function InfluencerDashboard() {
                   {off.status === 'negotiating' && off.influencer_message && (
                     <div className="p-3.5 rounded-lg bg-indigo-500/5 border border-indigo-500/10 text-xs text-slateText leading-relaxed">
                       <span className="font-semibold text-indigo-300 block mb-1">Your Counter Proposal:</span>
-                      ${off.offer_budget.toLocaleString()} — {off.influencer_message}
+                      ₹{off.offer_budget.toLocaleString()} — {off.influencer_message}
                     </div>
                   )}
 
@@ -344,7 +344,7 @@ export default function InfluencerDashboard() {
 
             <form onSubmit={handleNegotiateOffer} className="space-y-4">
               <div>
-                <label className="text-xs text-slateText block mb-1">Counter Price ($)</label>
+                <label className="text-xs text-slateText block mb-1">Counter Price (₹)</label>
                 <input
                   type="number"
                   required

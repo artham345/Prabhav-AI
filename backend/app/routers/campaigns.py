@@ -33,6 +33,7 @@ def create_campaign(
     campaign = Campaign(
         brand_profile_id=brand.id,
         product_name=campaign_in.product_name,
+        product_category=campaign_in.product_category,
         product_description=campaign_in.product_description,
         budget=campaign_in.budget,
         campaign_goal=campaign_in.campaign_goal,
@@ -42,6 +43,7 @@ def create_campaign(
         preferred_platform=campaign_in.preferred_platform,
         status="active" # automatically set to active for demonstration
     )
+
     db.add(campaign)
     db.commit()
     db.refresh(campaign)

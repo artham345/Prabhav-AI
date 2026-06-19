@@ -6,12 +6,14 @@ import { ArrowLeft, Sparkles, Send } from 'lucide-react';
 export default function CampaignCreator() {
   const navigate = useNavigate();
   const [productName, setProductName] = useState('');
+  const [category, setCategory] = useState('Fitness');
   const [description, setDescription] = useState('');
+
   const [budget, setBudget] = useState('');
   const [goal, setGoal] = useState('Conversions');
   const [audience, setAudience] = useState('');
   const [duration, setDuration] = useState(30);
-  const [location, setLocation] = useState('United States');
+  const [location, setLocation] = useState('India');
   const [platform, setPlatform] = useState('Instagram');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,6 +25,7 @@ export default function CampaignCreator() {
     try {
       const payload = {
         product_name: productName,
+        product_category: category,
         product_description: description,
         budget: parseFloat(budget),
         campaign_goal: goal,
@@ -70,13 +73,32 @@ export default function CampaignCreator() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <div>
-              <label className="text-xs text-slateText block mb-1">Product Name</label>
-              <input
-                type="text" required value={productName} onChange={e => setProductName(e.target.value)}
-                placeholder="e.g. Ergonomic Standing Desk"
-                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-indigo-500"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-slateText block mb-1">Product Name</label>
+                <input
+                  type="text" required value={productName} onChange={e => setProductName(e.target.value)}
+                  placeholder="e.g. Protein Powder"
+                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-slateText block mb-1">Product Category</label>
+                <select
+                  value={category} onChange={e => setCategory(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="Fitness" className="bg-darkBg">Fitness & Health</option>
+                  <option value="Technology" className="bg-darkBg">Technology & Coding</option>
+                  <option value="Finance" className="bg-darkBg">Finance & Investing</option>
+                  <option value="Education" className="bg-darkBg">Education & Tutorials</option>
+                  <option value="Gaming" className="bg-darkBg">Gaming & Esports</option>
+                  <option value="Fashion" className="bg-darkBg">Fashion & Clothing</option>
+                  <option value="Travel" className="bg-darkBg">Travel & Adventure</option>
+                  <option value="Food" className="bg-darkBg">Food & Recipes</option>
+                  <option value="Beauty" className="bg-darkBg">Beauty & Skincare</option>
+                </select>
+              </div>
             </div>
 
             <div>
@@ -91,10 +113,10 @@ export default function CampaignCreator() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-xs text-slateText block mb-1">Budget Allocation ($)</label>
+                <label className="text-xs text-slateText block mb-1">Budget Allocation (₹)</label>
                 <input
                   type="number" required value={budget} onChange={e => setBudget(e.target.value)}
-                  placeholder="e.g. 5000"
+                  placeholder="e.g. 50000"
                   className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                 />
               </div>
@@ -129,7 +151,7 @@ export default function CampaignCreator() {
                 <label className="text-xs text-slateText block mb-1">Target Location</label>
                 <input
                   type="text" required value={location} onChange={e => setLocation(e.target.value)}
-                  placeholder="e.g. United States"
+                  placeholder="e.g. India"
                   className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                 />
               </div>
@@ -147,7 +169,7 @@ export default function CampaignCreator() {
                 <label className="text-xs text-slateText block mb-1">Target Audience Profile</label>
                 <input
                   type="text" required value={audience} onChange={e => setAudience(e.target.value)}
-                  placeholder="e.g. Young professionals age 22-35 interested in ergonomics"
+                  placeholder="e.g. Gym goers and fitness enthusiasts in metro cities"
                   className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                 />
               </div>
@@ -162,6 +184,7 @@ export default function CampaignCreator() {
             {loading ? 'Submitting Brief...' : 'Publish Campaign Brief'} <Send className="h-4 w-4" />
           </button>
         </form>
+
       </div>
     </div>
   );

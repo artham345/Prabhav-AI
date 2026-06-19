@@ -12,6 +12,7 @@ if settings.GEMINI_API_KEY:
     except Exception:
         pass
 
+
 def get_fallback_advice(campaign, recommendations: list) -> dict:
     """Generates structured advice based on campaign parameters and ranking list."""
     if not recommendations:
@@ -45,8 +46,8 @@ def get_fallback_advice(campaign, recommendations: list) -> dict:
             f"Ensure the product landing page is fully optimized for mobile checkouts prior to launch."
         )
         allocation = (
-            f"Spend 70% (${budget * 0.7:,.2f}) of your budget on {creator_name}'s upfront video integration. "
-            f"Allocate the remaining 30% (${budget * 0.3:,.2f}) as a performance bonus based on coupon usage."
+            f"Spend 70% (₹{budget * 0.7:,.2f}) of your budget on {creator_name}'s upfront video integration. "
+            f"Allocate the remaining 30% (₹{budget * 0.3:,.2f}) as a performance bonus based on coupon usage."
         )
     elif "reach" in goal or "brand awareness" in goal:
         opt_sugs = [
@@ -59,8 +60,8 @@ def get_fallback_advice(campaign, recommendations: list) -> dict:
             f"Watch for click-through dropoffs if the product messaging is too generic."
         )
         allocation = (
-            f"Deploy 80% (${budget * 0.8:,.2f}) on creator flat rates. "
-            f"Reserve 20% (${budget * 0.2:,.2f}) for paid social retargeting ads to users who engaged with the creator's video."
+            f"Deploy 80% (₹{budget * 0.8:,.2f}) on creator flat rates. "
+            f"Reserve 20% (₹{budget * 0.2:,.2f}) for paid social retargeting ads to users who engaged with the creator's video."
         )
     else: # engagement/default
         opt_sugs = [
@@ -73,17 +74,30 @@ def get_fallback_advice(campaign, recommendations: list) -> dict:
             "Structure the rules to require checking out the brand page."
         )
         allocation = (
-            f"Allocate 60% (${budget * 0.6:,.2f}) for upfront video fee. "
-            f"Reserve 40% (${budget * 0.4:,.2f}) for product inventory, giveaways, and sample shipping costs."
+            f"Allocate 60% (₹{budget * 0.6:,.2f}) for upfront video fee. "
+            f"Reserve 40% (₹{budget * 0.4:,.2f}) for product inventory, giveaways, and sample shipping costs."
+        )
+        
+    reasoning = (
+        f"{creator_name} is the optimal choice because their SBERT content embeddings align closely with your product, "
+        f"'{campaign.product_name}'. Their primary audience matches your preferred location, and their past engagement "
+        f"indicates high follower loyalty."
+    )
+    
+    if len(recommendations) > 1:
+        second_creator = recommendations[1]
+        sec_name = second_creator["full_name"]
+        reasoning += (
+            f" Comparing metrics, {creator_name} is preferred over {sec_name} because they have a higher match score of {match_score}% "
+            f"compared to {sec_name}'s {second_creator['match_score']}% match. Additionally, {creator_name} has an engagement rate of "
+            f"{best_creator['engagement_rate']}% and {best_creator['followers_count']:,} followers, whereas {sec_name} "
+            f"has an engagement rate of {second_creator['engagement_rate']}% and {second_creator['followers_count']:,} followers, "
+            f"making {creator_name} a much more cost-effective option for this budget."
         )
         
     return {
         "best_influencer_recommendation": f"{creator_name} (Match Score: {match_score}%)",
-        "detailed_reasoning": (
-            f"{creator_name} is the optimal choice because their content embeddings align closely with your product, "
-            f"'{campaign.product_name}'. Their primary audience matches your preferred location, and their past engagement "
-            f"profile indicates high follower loyalty and trust."
-        ),
+        "detailed_reasoning": reasoning,
         "optimization_suggestions": opt_sugs,
         "risk_analysis": risk,
         "budget_allocation_advice": allocation
@@ -110,30 +124,31 @@ def get_campaign_advice(campaign, recommendations: list) -> dict:
                 f"  Primary Platform: {r['platform']}\n"
                 f"  Followers: {r['followers_count']:,}\n"
                 f"  Engagement Rate: {r['engagement_rate']}%\n"
-                f"  Expected Cost: ${r['expected_charge']:,.2f}\n"
+                f"  Expected Cost: ₹{r['expected_charge']:,.2f}\n"
                 f"  Compatibility: {r['compatibility_analysis']}\n\n"
             )
             
         prompt = (
             f"You are the senior marketing advisor for Prabhav AI.\n"
-            f"Analyze this campaign brief and list of top recommended creators to generate a campaign advisory plan.\n\n"
+            f"Analyze this campaign brief and list of top recommended creators to generate a campaign advisory plan in Indian Rupees (₹).\n\n"
             f"Campaign Details:\n"
             f"- Product: {campaign.product_name}\n"
+            f"- Category: {getattr(campaign, 'product_category', 'Fitness')}\n"
             f"- Description: {campaign.product_description}\n"
-            f"- Budget: ${campaign.budget:,.2f}\n"
+            f"- Budget: ₹{campaign.budget:,.2f}\n"
             f"- Goal: {campaign.campaign_goal}\n"
             f"- Target Audience: {campaign.target_audience}\n"
             f"- Location: {campaign.target_location}\n"
             f"- Preferred Platform: {campaign.preferred_platform}\n\n"
             f"Top Recommended Creators:\n"
             f"{recs_str}\n"
-            f"Generate a JSON response matching the following keys:\n"
+            f"Generate a JSON response matching the following keys. In 'detailed_reasoning', compare the top recommended creator (Creator A) against the runner-up (Creator B) and explain why Creator A is preferred over Creator B:\n"
             f"{{\n"
             f"  \"best_influencer_recommendation\": \"Name of creator with match score\",\n"
-            f"  \"detailed_reasoning\": \"Explain why they are chosen, mapping their content focus to the product.\",\n"
+            f"  \"detailed_reasoning\": \"Explain why they are chosen, explicitly comparing Creator A vs Creator B in detail.\",\n"
             f"  \"optimization_suggestions\": [\"suggestion 1\", \"suggestion 2\", \"suggestion 3\"],\n"
             f"  \"risk_analysis\": \"Identify risks (e.g. budget fit, platform alignment, audience overlaps)\",\n"
-            f"  \"budget_allocation_advice\": \"Step-by-step allocation details for the budget\"\n"
+            f"  \"budget_allocation_advice\": \"Step-by-step allocation details for the budget in Indian Rupees (₹)\"\n"
             f"}}\n"
             f"Return ONLY valid JSON. Do not include markdown code block formatting like ```json."
         )
@@ -163,3 +178,4 @@ def get_campaign_advice(campaign, recommendations: list) -> dict:
     except Exception:
         # Gracefully handle API timeout/exceptions
         return get_fallback_advice(campaign, recommendations)
+

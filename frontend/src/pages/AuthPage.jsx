@@ -271,14 +271,14 @@ export default function AuthPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs text-slateText block mb-1">Min Budget ($)</label>
+                    <label className="text-xs text-slateText block mb-1">Min Budget (₹)</label>
                     <input
                       type="number" required value={budgetMin} onChange={e => setBudgetMin(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-slateText block mb-1">Max Budget ($)</label>
+                    <label className="text-xs text-slateText block mb-1">Max Budget (₹)</label>
                     <input
                       type="number" required value={budgetMax} onChange={e => setBudgetMax(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
@@ -308,7 +308,7 @@ export default function AuthPage() {
                   <label className="text-xs text-slateText block mb-1">Full Name</label>
                   <input
                     type="text" required value={fullName} onChange={e => setFullName(e.target.value)}
-                    placeholder="e.g. Alex Rivera"
+                    placeholder="e.g. Rahul Sharma"
                     className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-secondaryColor"
                   />
                 </div>
@@ -325,16 +325,22 @@ export default function AuthPage() {
                   <div>
                     <label className="text-xs text-slateText block mb-1">Creator Category</label>
                     <select
-                      value={category} onChange={e => setCategory(e.target.value)}
+                       value={category} onChange={e => setCategory(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-secondaryColor"
                     >
-                      <option value="Fitness" className="bg-darkBg">Fitness & Nutrition</option>
-                      <option value="Technology" className="bg-darkBg">Technology & Coding</option>
-                      <option value="Lifestyle" className="bg-darkBg">Lifestyle & Travel</option>
+                      <option value="Fitness" className="bg-darkBg">Fitness</option>
+                      <option value="Technology" className="bg-darkBg">Technology</option>
+                      <option value="Finance" className="bg-darkBg">Finance</option>
+                      <option value="Education" className="bg-darkBg">Education</option>
+                      <option value="Gaming" className="bg-darkBg">Gaming</option>
+                      <option value="Fashion" className="bg-darkBg">Fashion</option>
+                      <option value="Travel" className="bg-darkBg">Travel</option>
+                      <option value="Food" className="bg-darkBg">Food</option>
+                      <option value="Beauty" className="bg-darkBg">Beauty</option>
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs text-slateText block mb-1">Expected Charge per Collab ($)</label>
+                    <label className="text-xs text-slateText block mb-1">Expected Charge per Collab (₹)</label>
                     <input
                       type="number" required value={charge} onChange={e => setCharge(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
@@ -345,14 +351,14 @@ export default function AuthPage() {
                   <div>
                     <label className="text-xs text-slateText block mb-1">Instagram Handle</label>
                     <input
-                      type="text" placeholder="@alex_fit" value={igHandle} onChange={e => setIgHandle(e.target.value)}
+                      type="text" placeholder="@rahul_fit" value={igHandle} onChange={e => setIgHandle(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                     />
                   </div>
                   <div>
                     <label className="text-xs text-slateText block mb-1">YouTube Channel Handle</label>
                     <input
-                      type="text" placeholder="AlexFitness" value={ytHandle} onChange={e => setYtHandle(e.target.value)}
+                      type="text" placeholder="RahulFitness" value={ytHandle} onChange={e => setYtHandle(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                     />
                   </div>
@@ -361,14 +367,14 @@ export default function AuthPage() {
                   <div>
                     <label className="text-xs text-slateText block mb-1">LinkedIn Profile</label>
                     <input
-                      type="text" placeholder="alex-rivera" value={lnHandle} onChange={e => setLnHandle(e.target.value)}
+                      type="text" placeholder="rahul-sharma" value={lnHandle} onChange={e => setLnHandle(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                     />
                   </div>
                   <div>
                     <label className="text-xs text-slateText block mb-1">Twitter (X) Handle</label>
                     <input
-                      type="text" placeholder="alex_codes" value={twHandle} onChange={e => setTwHandle(e.target.value)}
+                      type="text" placeholder="rahul_codes" value={twHandle} onChange={e => setTwHandle(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
                     />
                   </div>

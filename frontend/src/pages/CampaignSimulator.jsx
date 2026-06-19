@@ -173,7 +173,7 @@ export default function CampaignSimulator() {
         <div className="flex gap-4">
           <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-center">
             <span className="text-xs text-slateText block">Brief Budget</span>
-            <span className="text-lg font-bold">${campaign?.budget.toLocaleString()}</span>
+            <span className="text-lg font-bold">₹{campaign?.budget.toLocaleString()}</span>
           </div>
           <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-center">
             <span className="text-xs text-slateText block">Target Geo</span>
@@ -223,7 +223,7 @@ export default function CampaignSimulator() {
                   <div className="mt-4 flex items-center justify-between text-xs border-t border-white/5 pt-3">
                     <div>
                       <span className="text-slateText block">Charge</span>
-                      <span className="font-semibold text-white/90">${rec.expected_charge.toLocaleString()}</span>
+                      <span className="font-semibold text-white/90">₹{rec.expected_charge.toLocaleString()}</span>
                     </div>
                     <div>
                       <span className="text-slateText block">Engagement</span>
@@ -296,7 +296,7 @@ export default function CampaignSimulator() {
                     />
                   </div>
                   <div className="md:col-span-1">
-                    <label className="text-xs text-slateText block mb-1">Simulated Budget ($)</label>
+                    <label className="text-xs text-slateText block mb-1">Simulated Budget (₹)</label>
                     <input 
                       type="number" value={simBudget} onChange={e => setSimBudget(e.target.value)}
                       className="w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
@@ -333,7 +333,7 @@ export default function CampaignSimulator() {
                       </div>
                       <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                         <span className="text-xs text-slateText block">Estimated Revenue</span>
-                        <span className="text-xl font-bold text-white/95">${simulationResult.expected_revenue.toLocaleString()}</span>
+                        <span className="text-xl font-bold text-white/95">₹{simulationResult.expected_revenue.toLocaleString()}</span>
                       </div>
                       <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                         <span className="text-xs text-slateText block">Projected ROI</span>
@@ -349,7 +349,14 @@ export default function CampaignSimulator() {
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={simulationChartData}>
                           <XAxis dataKey="name" stroke="#94A3B8" fontSize={11} />
-                          <Tooltip contentStyle={{ backgroundColor: '#161D30' }} />
+                          <Tooltip 
+                            formatter={(value, name) => {
+                              if (name === "Revenue") return [`₹${value.toLocaleString()}`, name];
+                              if (name === "ROI") return [`${(value / 100).toFixed(2)}x`, name]; // adjust scale
+                              return [value.toLocaleString(), name];
+                            }}
+                            contentStyle={{ backgroundColor: '#161D30' }} 
+                          />
                           <Legend wrapperStyle={{ fontSize: '11px' }} />
                           <Bar dataKey="Conversions" fill="#6366F1" radius={[4, 4, 0, 0]} />
                           <Bar dataKey="ROI" fill="#10B981" radius={[4, 4, 0, 0]} />

@@ -141,7 +141,7 @@ export default function Marketplace() {
                   </div>
                   <div className="mt-3 flex justify-between items-center text-xs text-slateText">
                     <span>Active Deal</span>
-                    <span className="font-bold text-white">${collab.offer_budget.toLocaleString()}</span>
+                    <span className="font-bold text-white">₹{collab.offer_budget.toLocaleString()}</span>
                   </div>
                 </div>
               );
@@ -162,7 +162,7 @@ export default function Marketplace() {
                 </div>
                 <div className="text-right">
                   <span className="text-xs text-slateText block">Active Offer Price</span>
-                  <span className="text-2xl font-black text-indigo-400">${selectedCollab.offer_budget.toLocaleString()}</span>
+                  <span className="text-2xl font-black text-indigo-400">₹{selectedCollab.offer_budget.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -215,7 +215,7 @@ export default function Marketplace() {
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="md:col-span-1">
-                          <label className="text-[10px] text-slateText block mb-1">New Counter Price ($)</label>
+                          <label className="text-[10px] text-slateText block mb-1">New Counter Price (₹)</label>
                           <input
                             type="number"
                             required

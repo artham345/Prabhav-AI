@@ -100,7 +100,9 @@ class Campaign(Base):
     id = Column(String(36), primary_key=True, default=generate_uuid)
     brand_profile_id = Column(String(36), ForeignKey("brand_profiles.id", ondelete="CASCADE"), nullable=False)
     product_name = Column(String(255), nullable=False)
+    product_category = Column(String(100), nullable=False, default="Fitness")
     product_description = Column(Text, nullable=False)
+
     budget = Column(Float, nullable=False)
     campaign_goal = Column(String(255), nullable=False) # Reach, Conversions, Engagement
     target_audience = Column(Text, nullable=True)      # JSON description

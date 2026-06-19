@@ -121,28 +121,29 @@ train_prediction_models()
 def run_campaign_simulation(budget: float, influencers: list) -> dict:
     """
     Simulates campaign metrics based on budget and selected influencers.
-    
-    Inputs:
-      - budget: float (total budget allocated)
-      - influencers: list of InfluencerProfile database models
+    Calculates outputs in Indian Rupees (INR ₹).
     """
     global reach_model, engagement_model, conversions_model, revenue_model
-    # Calculate aggregate influencer inputs
+    
+    # Calculate aggregate creator parameters
     total_followers = 0
-
     engagement_rates = []
+    trust_scores = []
     
     for inf in influencers:
         for data in inf.social_data:
             total_followers += data.followers_count
             engagement_rates.append(data.engagement_rate)
+        trust_scores.append(inf.trust_score or 7.5)
             
     if not influencers:
-        # Default scenario if no influencers selected
-        total_followers = int(budget * 25)
+        # Default scenario if no influencers selected (scaled by budget in INR)
+        total_followers = int(budget * 5.0)
         avg_er = 2.5
+        avg_trust = 7.5
     else:
         avg_er = np.mean(engagement_rates) if engagement_rates else 2.5
+        avg_trust = np.mean(trust_scores)
         
     X_pred = pd.DataFrame([{
         "budget": budget,
@@ -158,15 +159,18 @@ def run_campaign_simulation(budget: float, influencers: list) -> dict:
             expected_conv = int(conversions_model.predict(X_pred)[0])
             expected_rev = float(revenue_model.predict(X_pred)[0])
         except Exception:
-            # Fallback to heuristic
             reach_model = "heuristic"
             
     if reach_model == "heuristic" or reach_model is None:
         # High fidelity mathematical heuristic
-        expected_reach = int(total_followers * 0.18 + (budget * 1.5))
+        # Reach: 10% to 30% of total followers, boosted slightly by budget
+        expected_reach = int(total_followers * 0.22 + (budget * 0.1))
+        # Engagement count: reach * engagement rate
         expected_eng = expected_reach * (avg_er / 100.0)
-        expected_conv = int(expected_eng * 0.018)
-        expected_rev = expected_conv * 65.0 # Average conversion cart value is $65
+        # Conversions: 1.5% to 4.5% of engagement, scaled by creator trust
+        expected_conv = int(expected_eng * 0.024 * (avg_trust / 7.5))
+        # Revenue: conversions * average order value of INR 1,200
+        expected_rev = expected_conv * 1200.0
         
     # Ensure minimum sanity limits
     expected_reach = max(100, expected_reach)
@@ -190,3 +194,4 @@ def run_campaign_simulation(budget: float, influencers: list) -> dict:
         "profitability_score": profitability_score,
         "roi_score": roi_score
     }
+

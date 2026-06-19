@@ -99,6 +99,8 @@ class TestPrabhavAIBackend(unittest.TestCase):
         class MockCampaign:
             product_name = "Eco Gym Mat"
             product_description = "Organic rubber exercise mats for yoga, pilates and fitness workouts."
+            product_category = "Fitness"
+            target_audience = "people interested in gym, fitness, and yoga"
             campaign_goal = "Conversions"
             budget = 5000.0
             target_location = "United States"
@@ -110,18 +112,21 @@ class TestPrabhavAIBackend(unittest.TestCase):
             engagement_rate = 4.5
             primary_country = "US"
             content_embeddings = None
+            interests = json.dumps(["fitness", "yoga"])
+            content_categories = json.dumps({"Fitness": 0.9})
             
         class MockInfluencer:
             id = "creator-1"
-            full_name = "Alex Trainer"
+            full_name = "Rahul Sharma"
             bio = "Certified yoga and athletic workout coach."
-            instagram_handle = "@alex_fit"
+            instagram_handle = "@rahul_fit"
             youtube_handle = None
             linkedin_handle = None
             twitter_handle = None
             creator_category = "Fitness"
             niches = json.dumps(["Fitness"])
             expected_charge = 1200.0
+            trust_score = 8.5
             social_data = [MockSocialData()]
             
         campaign = MockCampaign()
@@ -141,6 +146,7 @@ class TestPrabhavAIBackend(unittest.TestCase):
             
         class MockInfluencer:
             social_data = [MockSocialData()]
+            trust_score = 7.5
             
         influencers = [MockInfluencer()]
         budget = 2000.0

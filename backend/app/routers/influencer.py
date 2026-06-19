@@ -187,7 +187,147 @@ def ingest_social_profile_intelligence(
         interests = ["fitness", "gym", "nutrition", "healthy lifestyle", "weight lifting"]
         niche_tags = ["Fitness", "Nutrition", "Lifestyle"]
         followers_base = 120000
-    else: # Fashion, Lifestyle, Finance, Business or Travel
+    elif "finance" in category or "money" in category or "invest" in category:
+        posts_instagram = [
+            "Simple ways to start investing in mutual funds today. Let your money work for you! 📈",
+            "5 biggest money mistakes to avoid in your 20s. #personalfinance"
+        ]
+        posts_youtube = [
+            "How to build a long-term stock portfolio in India. Simple compounding explanation.",
+            "SIP vs Lump Sum investing: which strategy wins in a bull market?"
+        ]
+        posts_linkedin = [
+            "Financial literacy is key. We need to educate our youth on taxation, compounding SIPs, and diversified asset allocation.",
+            "Analyzing the latest regulatory shifts in equity capital markets. Retail investors are driving record volumes."
+        ]
+        posts_twitter = [
+            "Market volatility is just noise. Stick to index funds and solid mutual funds for long-term peace of mind. 📊",
+            "Best time to start saving was 5 years ago. Second best time is today."
+        ]
+        interests = ["finance", "investing", "mutual funds", "stocks", "savings", "tax planning"]
+        niche_tags = ["Finance & Investing", "Business & Entrepreneurship"]
+        followers_base = 95000
+    elif "education" in category or "learn" in category or "study" in category:
+        posts_instagram = [
+            "Learn this simple math trick to solve quadratic equations in under 10 seconds! 📐",
+            "3 productivity methods to double your studying efficiency."
+        ]
+        posts_youtube = [
+            "Introduction to Machine Learning: Complete 1-hour bootcamp for absolute beginners.",
+            "How the human brain learns: Science-backed active recall techniques."
+        ]
+        posts_linkedin = [
+            "Skill-based learning is the future of hiring. Degrees are secondary to verified coding and writing competencies.",
+            "Discussing curriculum design. We need to integrate critical thinking and basic economics early in school systems."
+        ]
+        posts_twitter = [
+            "Writing a step-by-step tutorial on database indexing. What topic should I cover next? 📝",
+            "Read 50 books a year? Focus on reading 5 life-changing books twice instead."
+        ]
+        interests = ["education", "learning", "science", "coding tutorials", "productivity"]
+        niche_tags = ["Technology", "Lifestyle"]
+        followers_base = 55000
+    elif "gaming" in category or "game" in category or "esport" in category:
+        posts_instagram = [
+            "Finally hit Apex Predator rank this season! 🎮 Who is ready to squad up?",
+            "Rate my clean rgb gaming setup! Custom liquid cooling. #gaming"
+        ]
+        posts_youtube = [
+            "Elden Ring DLC complete review: bosses ranked by mechanical difficulty.",
+            "Top 10 competitive esports highlights of the month: insane plays."
+        ]
+        posts_linkedin = [
+            "The gaming industry in India is now larger than box office and music combined. Massive venture capital flows are shaping game development.",
+            "Discussing the growth of regional game streaming portals. Local languages are driving the next 100M active gamers."
+        ]
+        posts_twitter = [
+            "Playstation 5 Pro vs custom built gaming PC. Let the specs debate begin! 🎮",
+            "Currently downloading the new update. Stream starts in 10 minutes."
+        ]
+        interests = ["gaming", "esports", "streaming", "xbox", "playstation", "pc building"]
+        niche_tags = ["Gaming", "Lifestyle"]
+        followers_base = 150000
+    elif "fashion" in category or "style" in category:
+        posts_instagram = [
+            "Neutral color styling for the monsoon season. 🍂 Rate this outfit from 1-10.",
+            "OOTD: styling oversized shirts with minimal accessories."
+        ]
+        posts_youtube = [
+            "My sustainable fashion haul: styling thrifted linen shirts and custom kurtas.",
+            "Wardrobe essentials every professional should own: complete style guide."
+        ]
+        posts_linkedin = [
+            "Sustainable fashion startups are redefining D2C supply chains in India. Honored to consult for this green apparel launch.",
+            "Creative direction is all about storytelling. The intersection of clothing and heritage is a powerful brand narrative."
+        ]
+        posts_twitter = [
+            "Currently writing an article on fashion trends in India for 2026. 👗",
+            "Invest in good shoes and a classic watch. They elevate any basic outfit."
+        ]
+        interests = ["fashion", "style", "clothing", "sustainability", "kurtas", "grooming"]
+        niche_tags = ["Fashion & Beauty", "Lifestyle"]
+        followers_base = 110000
+    elif "travel" in category or "adventure" in category or "wanderlust" in category:
+        posts_instagram = [
+            "Chasing sunsets in Himachal Pradesh. 🏔️ Indian mountains are unmatched. #travel",
+            "Hidden café gems in Manali. Pin this post for your next trip!"
+        ]
+        posts_youtube = [
+            "Shimla to Manali road trip vlog: complete budget traveler guide.",
+            "Exploring the backwaters of Kerala: houseboat stay review and cost breakdown."
+        ]
+        posts_linkedin = [
+            "Eco-tourism is experiencing a 30% YoY growth. Community-owned homestays are key to sustainable economics in mountain regions.",
+            "Travel tech is streamlining bookings, but local experiences remain highly fragmented. Massive startup space here."
+        ]
+        posts_twitter = [
+            "Boarding my flight to Kerala. Ready for some backwaters! ✈️",
+            "Travel doesn't have to be expensive. Homestays and local buses tell the real stories."
+        ]
+        interests = ["travel", "mountains", "vlogging", "road trips", "kerala", "homestays"]
+        niche_tags = ["Travel & Adventure", "Lifestyle"]
+        followers_base = 90000
+    elif "food" in category or "cook" in category or "recipe" in category:
+        posts_instagram = [
+            "Spicy Paneer Tikka recipe! 🌶️ Easy 20-minute home appetizer. #cooking",
+            "Sunday brunch: hot dosas with homemade coconut chutney."
+        ]
+        posts_youtube = [
+            "How to cook the perfect butter chicken at home: restaurant style tutorial.",
+            "Healthy high-protein dessert recipes under 150 calories."
+        ]
+        posts_linkedin = [
+            "The Indian cloud-kitchen market is projected to reach $2B by 2027. Ingredient supply chains and quality consistency are key bottlenecks.",
+            "Consumer preferences are shifting towards organic products. Clean labelling is becoming a regulatory necessity, not just marketing."
+        ]
+        posts_twitter = [
+            "Sunday breakfast: filter coffee and steaming idlis. Best food combo ever. 🥞",
+            "Cooking is therapeutic. What's on your dinner plate tonight?"
+        ]
+        interests = ["food", "recipes", "cooking", "healthy eating", "restaurants", "cloud kitchens"]
+        niche_tags = ["Nutrition", "Lifestyle"]
+        followers_base = 130000
+    elif "beauty" in category or "skincare" in category:
+        posts_instagram = [
+            "Clean girl makeup routine for daily office wear. 💄 Simple 5-step tutorial.",
+            "My morning skincare routine: hyaluronic acid and lightweight moisturizer."
+        ]
+        posts_youtube = [
+            "My honest review of top 5 Indian sunscreen brands for peak summer.",
+            "Skincare 101: building a basic routine for sensitive skin."
+        ]
+        posts_linkedin = [
+            "Representing local cosmetic brands at the global beauty summit. D2C growth is completely driven by creator authenticity.",
+            "Skincare formulation is evolving. Consumers now read active ingredients (like Retinol or Niacinamide) before buying."
+        ]
+        posts_twitter = [
+            "Skincare first, makeup second. Sunscreen is non-negotiable! 🧴",
+            "Double cleansing at night will literally change your skin health."
+        ]
+        interests = ["skincare", "makeup", "beauty", "cosmetics", "sunscreen", "glow"]
+        niche_tags = ["Fashion & Beauty", "Lifestyle"]
+        followers_base = 105000
+    else: # Default Lifestyle
         posts_instagram = [
             "Aesthetic coffee run and OOTD. Loving this weather! ☕️🧣",
             "Checking out the hidden streets of Paris. Truly magical. #travel"
@@ -207,6 +347,7 @@ def ingest_social_profile_intelligence(
         interests = ["lifestyle", "fashion", "travel", "beauty", "vlog"]
         niche_tags = ["Lifestyle", "Travel & Adventure", "Fashion & Beauty"]
         followers_base = 85000
+
         
     platforms = [
         {"name": "Instagram", "handle": profile.instagram_handle, "posts": posts_instagram, "er": 4.2, "fol_pct": 0.5, "country": "US"},

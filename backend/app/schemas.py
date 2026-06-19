@@ -131,6 +131,7 @@ class InfluencerProfileResponse(BaseModel):
 # --- CAMPAIGN SCHEMAS ---
 class CampaignCreate(BaseModel):
     product_name: str
+    product_category: str
     product_description: str
     budget: float
     campaign_goal: str
@@ -143,6 +144,7 @@ class CampaignResponse(BaseModel):
     id: str
     brand_profile_id: str
     product_name: str
+    product_category: str
     product_description: str
     budget: float
     campaign_goal: str
@@ -155,6 +157,7 @@ class CampaignResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 # --- COLLABORATION SCHEMAS ---
 class CollaborationCreate(BaseModel):

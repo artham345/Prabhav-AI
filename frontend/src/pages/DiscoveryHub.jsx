@@ -134,18 +134,24 @@ export default function DiscoveryHub() {
             onChange={e => setSelectedCategory(e.target.value)}
             className="w-full px-4 py-2.5 text-sm rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
           >
-            <option value="All" className="bg-darkBg">All Specialities</option>
-            <option value="Fitness" className="bg-darkBg">Fitness & Nutrition</option>
-            <option value="Technology" className="bg-darkBg">Technology & Coding</option>
-            <option value="Lifestyle" className="bg-darkBg">Lifestyle & Travel</option>
+            <option value="All" className="bg-darkBg">All Specialties</option>
+            <option value="Fitness" className="bg-darkBg">Fitness</option>
+            <option value="Technology" className="bg-darkBg">Technology</option>
+            <option value="Finance" className="bg-darkBg">Finance</option>
+            <option value="Education" className="bg-darkBg">Education</option>
+            <option value="Gaming" className="bg-darkBg">Gaming</option>
+            <option value="Fashion" className="bg-darkBg">Fashion</option>
+            <option value="Travel" className="bg-darkBg">Travel</option>
+            <option value="Food" className="bg-darkBg">Food</option>
+            <option value="Beauty" className="bg-darkBg">Beauty</option>
           </select>
         </div>
 
         <div>
-          <label className="text-xs text-slateText block mb-1.5">Max Creator Fee ($)</label>
+          <label className="text-xs text-slateText block mb-1.5">Max Creator Fee (₹)</label>
           <input
             type="number"
-            placeholder="e.g. 1500"
+            placeholder="e.g. 10000"
             value={maxBudget}
             onChange={e => setMaxBudget(e.target.value)}
             className="w-full px-4 py-2.5 text-sm rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
@@ -209,7 +215,7 @@ export default function DiscoveryHub() {
               <div className="border-t border-white/5 pt-4 flex items-center justify-between">
                 <div>
                   <span className="text-xs text-slateText block">Asking Fee</span>
-                  <span className="text-base font-extrabold text-white">${creator.expected_charge.toLocaleString()}</span>
+                  <span className="text-base font-extrabold text-white">₹{creator.expected_charge.toLocaleString()}</span>
                 </div>
                 <button
                   onClick={() => setActiveOfferCreator(creator)}
@@ -269,13 +275,13 @@ export default function DiscoveryHub() {
                     className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none text-sm"
                   >
                     {campaigns.map(c => (
-                      <option key={c.id} value={c.id} className="bg-darkBg">{c.product_name} (${c.budget.toLocaleString()})</option>
+                      <option key={c.id} value={c.id} className="bg-darkBg">{c.product_name} (₹{c.budget.toLocaleString()})</option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="text-xs text-slateText block mb-1">Offer Budget ($)</label>
+                  <label className="text-xs text-slateText block mb-1">Offer Budget (₹)</label>
                   <input
                     type="number"
                     required
